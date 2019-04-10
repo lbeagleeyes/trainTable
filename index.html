@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.9.2/firebase.js"></script>
+    <script src="app.js"></script>
+</head>
+
+<body>
+    <div class="container" id="main-container">
+        <div class="jumbotron jumbotron-fluid" id="title">
+            <div class="container">
+                <h1 class="display-4">Train Schedule</h1>
+                <!-- <p class="lead"></p> -->
+            </div>
+        </div>
+
+        <div class="card" >
+            <div class="card-header">
+                 Train Schedule
+            </div>
+            <table class="table" id="train-table">
+                <thead>
+                    <tr>
+                        <th scope="col">Train Name</th>
+                        <th scope="col">Destination</th>
+                        <th scope="col">Next Train</th>
+                        <th scope="col">Minutes Left</th>
+                    </tr>
+                </thead>
+                <tbody id="trainList">
+                </tbody>
+            </table>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                Add Train
+            </div>
+            <form id="addTrain-form">
+                <div class="form-group">
+                    <label for="name">Train Name</label>
+                    <input type="text" class="form-control" id="trainName" aria-describedby="name"
+                        placeholder="Howgwarts Express">
+                </div>
+                <div class="form-group">
+                    <label for="destination">Destination</label>
+                    <input type="text" class="form-control" id="destination" placeholder="Hogwarts">
+                </div>
+                <div class="form-group">
+                    <label for="firstTrainTime">First Train time (HH:MM)</label>
+                    <input type="text" class="form-control" id="firstTrainTime" placeholder="22:00">
+                </div>
+                <div class="form-group">
+
+                    <label for="frequency">Frequecy (mins)</label>
+                    <input type="text" class="form-control" id="frequency" placeholder="20">
+
+                </div>
+                <button type="submit" class="btn btn-outline-primary" onclick="addTrain()">Submit</button>
+            </form>
+        </div>
+    </div>
+
+</body>
+
+</html>

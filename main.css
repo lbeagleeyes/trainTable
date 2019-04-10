@@ -1,0 +1,21 @@
+#title {
+    background-color: black;
+    color: white;
+    text-align: center;
+    margin-bottom: 3%;
+}
+
+#train-table {
+    padding: 2%;
+    width:100%;
+    overflow: hidden;
+}  
+
+ #addTrain-form {
+    padding: 2%;
+} 
+
+.card {
+    margin-bottom: 3%;
+}
+
