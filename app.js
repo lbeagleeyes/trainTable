@@ -32,41 +32,45 @@ function addTrain() {
 
 
   // Code for handling the push
-  database.ref().push({
+  database.ref('/trains/').push({
     name: name,
     destination: destination,
     firstTrain: firstTrain,
-    frequency: frequency,
+    frequency: frequency
   });
 
 }
 
-database.ref().on("child_added", function (childSnapshot) {
+database.ref('/trains').on("child_added", function (trainEntry) {
 
-  console.log(childSnapshot.key);
+  console.log(trainEntry.key);
 
   var row = new $('<tr>', {
-    id:childSnapshot.key
+    id: trainEntry.key
   });
 
-  var firstTrain = childSnapshot.val().firstTrain;
-  var frequency = childSnapshot.val().frequency;
+  var train = trainEntry.val();
+
+  var firstTrain = train.firstTrain;
+  var frequency = train.frequency;
 
   var nextInfo = calculateNextTrain(firstTrain, frequency);
 
 
-  row.append($('<td>').text(childSnapshot.val().name));
-  row.append($('<td>').text(childSnapshot.val().destination));
+  row.append($('<td>').text(train.name));
+  row.append($('<td>').text(train.destination));
+  row.append($('<td>').text(train.frequency));
+
 
   var nextTrainTime = new $('<td>', {
-    id:childSnapshot.key+"-nextTrain",
-    text:nextInfo[0]
+    id: trainEntry.key + "-nextTrain",
+    text: nextInfo[0]
   });
 
   row.append(nextTrainTime);
 
   var minutesLeft = new $('<td>', {
-    id:childSnapshot.key+"-inMins",
+    id: trainEntry.key + "-inMins",
     text: nextInfo[1]
   });
 
@@ -76,22 +80,24 @@ database.ref().on("child_added", function (childSnapshot) {
 
 });
 
-// function updateTrainInfo() {
-//   database.ref().on("value", function(snapshot) {
-//     console.log(snapshot.val());
+function updateTrainInfo() {
+  database.ref('/trains').on("value", function (snapshot) {
+    console.log(snapshot.val());
+    var trains = snapshot.val();
+
+    Object.keys(trains).forEach(function (trainId) {
+      var train = trains[trainId];
+
+      var nextInfo = calculateNextTrain(train.firstTrain, train.frequency);
+      $('#' + trainId + '-nextTrain').text(nextInfo[0]);
+      $('#' + trainId + '-inMins').text(nextInfo[1]);
+
+    })
+
+  });
 
 
-//     var nextInfo = calculateNextTrain(snapshot.val().firstTrain, snapshot.val().frequency);
-
-//     var key = snapshot.key;
-
-//     $('#'+key+'-nextTrain').text = nextInfo[0];
-
-//     $('#'+key+'-inMins').text = nextInfo[1];
-
-//   });
-  
-// }
+}
 
 function calculateNextTrain(firstTrain, frequency) {
   var currentTime = moment().format('HH:mm');
@@ -106,7 +112,7 @@ function calculateNextTrain(firstTrain, frequency) {
   return [nextTrainTime, minsLeft];
 }
 
-// $(document).ready(function() {
+$(document).ready(function () {
 
-//     setInterval(updateTrainInfo, 60000);
-// });
+  setInterval(updateTrainInfo, 60000);
+});
